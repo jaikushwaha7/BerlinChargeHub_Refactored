@@ -66,7 +66,7 @@ def create_electric_charging_residents_heatmap(df_charging_stations, df_populati
                 result = search.search_by_postal_code(df_merged, search_plz)
                 if result and len(result) > 0 and result[0]:
                     st.info(
-                        f"Number of Charging Stations found at Postal Code {result[1].postal_code}: "
+                        f"Number of Charging Stations found at Postal Code {result[1].postal_code} ->   "
                         f"{result[1].stations_found}")
                 else:
                     st.error("No results found.")

@@ -47,7 +47,7 @@ class SearchService:
             filtered_df = merged_df[merged_df["PLZ"] == plz]
             logging.info(f"Filtered dataframe:\n{filtered_df.head()}")
             if filtered_df.empty:
-                logging.warning(f"No locations found for postal code: {plz}")
+                logging.warning(f"No Charging Station found for postal code: {plz}")
                 return [], StationSearchPerformed(
                     timestamp=pandas.Timestamp.now(),
                     postal_code=str(plz),
@@ -62,7 +62,7 @@ class SearchService:
                     lat = float(str(row["Breitengrad"]).replace(',', '.'))
                     lon = float(str(row["Längengrad"]).replace(',', '.'))
                     stations.append(ChargingStation(
-                        postal_code=row["PLZ"],
+                        postal_code=str(row["PLZ"]),
                         latitude=lat,
                         longitude=lon
                     ))

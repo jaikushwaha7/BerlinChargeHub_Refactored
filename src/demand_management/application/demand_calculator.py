@@ -37,10 +37,8 @@ class DemandCalculator:
             raise TypeError("number_of_stations must be an int or NumberOfChargingStation instance.")
 
         # Validate input values
-        if number_of_stations < 1:
+        if number_of_stations_value < 1:
             raise ValueError("Number of stations must be at least 1.")
-
-
         if population_value <= 0:
             raise ValueError("Population must be a positive value.")
         if usage_rate <= 0:

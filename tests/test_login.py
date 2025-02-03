@@ -1,13 +1,11 @@
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
-
-import src.application.login as login_module
-
+import src.utils.login as login_module
 
 class TestHandleLogin(TestCase):
-    @patch('src.application.login.st.text_input')
-    @patch('src.application.login.st.button')
-    @patch('src.application.login.check_credentials')
+    @patch('src.utils.login.st.text_input')
+    @patch('src.utils.login.st.button')
+    @patch('src.utils.login.check_credentials')
     def test_handle_login_successful(self, mock_check_credentials, mock_button, mock_text_input):
         # Arrange
         mock_button.return_value = True
@@ -20,13 +18,13 @@ class TestHandleLogin(TestCase):
         # Assert
         mock_text_input.assert_any_call("Username:", "")
         mock_text_input.assert_any_call("Password:", "", type="password")
-        mock_button.assert_called_once_with("Login")
+        mock_button.assert_called_once_with("Login to dashboard")
         mock_check_credentials.assert_called_once_with("test_user", "test_password")
         self.assertTrue(result)
 
-    @patch('src.application.login.st.text_input')
-    @patch('src.application.login.st.button')
-    @patch('src.application.login.check_credentials')
+    @patch('src.utils.login.st.text_input')
+    @patch('src.utils.login.st.button')
+    @patch('src.utils.login.check_credentials')
     def test_handle_login_invalid_credentials(self, mock_check_credentials, mock_button, mock_text_input):
         # Arrange
         mock_button.return_value = True
@@ -43,11 +41,11 @@ class TestHandleLogin(TestCase):
         mock_check_credentials.assert_called_once_with("test_user", "wrong_password")
         self.assertFalse(result)
 
-    @patch('src.application.login.st.text_input')
-    @patch('src.application.login.st.button')
+    @patch('src.utils.login.st.text_input')
+    @patch('src.utils.login.st.button')
     def test_handle_login_no_button_pressed(self, mock_button, mock_text_input):
         # Arrange
-        mock_button.return_value = False
+        mock_button.return_value = False  # Simulate no button press
         mock_text_input.side_effect = ["test_user", "test_password"]
 
         # Act
@@ -57,4 +55,4 @@ class TestHandleLogin(TestCase):
         mock_text_input.assert_any_call("Username:", "")
         mock_text_input.assert_any_call("Password:", "", type="password")
         mock_button.assert_called_once_with("Login to dashboard")
-        self.assertTrue(result)
+        self.assertFalse(result)

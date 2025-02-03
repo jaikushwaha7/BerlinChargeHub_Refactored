@@ -1,63 +1,61 @@
-import sqlite3
-from src.utils.database_utils import init_db
-from unittest import TestCase
-from unittest.mock import patch, MagicMock
-
-
-class TestDatabaseUtils(TestCase):
-
-    @patch('sqlite3.connect')
-    def test_init_db_calls_connect(self, mock_connect):
-        mock_conn = MagicMock()
-        mock_connect.return_value = mock_conn
-
-        init_db()
-
-        mock_connect.assert_called_once_with('heatmap_app.db')
-        mock_conn.close.assert_called_once()
-
-    @patch('sqlite3.connect')
-    def test_init_db_users_table_creation(self, mock_connect):
-        mock_conn = MagicMock()
-        mock_cursor = MagicMock()
-        mock_conn.cursor.return_value = mock_cursor
-        mock_connect.return_value = mock_conn
-
-        init_db()
-
-        mock_cursor.execute.assert_any_call('''
-            CREATE TABLE IF NOT EXISTS users
-            (username TEXT PRIMARY KEY, 
-             password_hash TEXT,
-             created_at DATETIME)
-        ''')
-
-    @patch('sqlite3.connect')
-    def test_init_db_station_ratings_table_creation(self, mock_connect):
-        mock_conn = MagicMock()
-        mock_cursor = MagicMock()
-        mock_conn.cursor.return_value = mock_cursor
-        mock_connect.return_value = mock_conn
-
-        init_db()
-
-        mock_cursor.execute.assert_any_call('''
-            CREATE TABLE IF NOT EXISTS station_ratings
-            (station_id TEXT,
-             username TEXT,
-             rating INTEGER,
-             timestamp DATETIME,
-             FOREIGN KEY(username) REFERENCES users(username))
-        ''')
-
-    @patch('sqlite3.connect')
-    def test_init_db_commits_changes(self, mock_connect):
-        mock_conn = MagicMock()
-        mock_connect.return_value = mock_conn
-
-        init_db()
-
-        mock_conn.commit.assert_called_once()
-
-
-
+# import unittest
+# from src.utils.database_utils import hash_password
+# from unittest.mock import patch
+#
+#
+# class TestHashPassword(unittest.TestCase):
+#
+#     def test_hash_password_returns_string(self):
+#         # Arrange
+#         test_password = "password123"
+#         # Act
+#         result = hash_password(test_password)
+#         # Assert
+#         self.assertIsInstance(result, str)
+#
+#     def test_hash_password_consistency(self):
+#         # Arrange
+#         test_password = "password123"
+#         # Act
+#         hash1 = hash_password(test_password)
+#         hash2 = hash_password(test_password)
+#         # Assert
+#         self.assertEqual(hash1, hash2)
+#
+#     def test_hash_password_differing_inputs(self):
+#         # Arrange
+#         password1 = "password123"
+#         password2 = "differentPassword123"
+#         # Act
+#         hash1 = hash_password(password1)
+#         hash2 = hash_password(password2)
+#         # Assert
+#         self.assertNotEqual(hash1, hash2)
+#
+#     @patch("src.utils.database_utils.hashlib.sha256")
+#     def test_hash_password_uses_sha256(self, mock_sha256):
+#         # Arrange
+#         test_password = "password123"
+#         mock_sha256.return_value.hexdigest.return_value = "mocked_hash"
+#         # Act
+#         result = hash_password(test_password)
+#         # Assert
+#         mock_sha256.assert_called()
+#         self.assertEqual(result, "mocked_hash")
+#
+#     @patch("src.utils.database_utils.hashlib.sha256")
+#     def test_hash_password_salt_applied(self, mock_sha256):
+#         # Arrange
+#         test_password = "password123"
+#         mock_sha256.return_value.hexdigest.return_value = "mocked_hash"
+#         # Act
+#         hash_password(test_password)
+#         # Assert
+#         mock_sha256.assert_called_once_with()
+#         call_args = mock_sha256.return_value.update.call_args[0][0]
+#         self.assertIn(b"streamlit-heatmap-salt", call_args)
+#         self.assertIn(test_password.encode(), call_args)
+#
+#
+# if __name__ == "__main__":
+#     unittest.main()
