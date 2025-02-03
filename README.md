@@ -49,6 +49,29 @@ project_root/
 ├── .gitignore                           # Git ignored files (e.g., *.pyc, __pycache__, local data files)
 ```
 
+## Electric Charging Stations and Residents Heatmap
+The **Electric Charging Stations and Residents Heatmap** is an interactive web application built with **Streamlit** and **Folium**. It provides a user-friendly interface to visualize electric vehicle charging station locations, residential density, and demand scores on an interactive map.
+### Features
+- **User Authentication**: Secure login and logout functionality for accessing the app.
+- **Search by Postal Code**: Quickly find charging station information for specific postal codes.
+- **Interactive Heatmaps**: Visualize various data layers, including:
+    - Residential population density.
+    - Electric charging station availability.
+    - Demand scores for charging stations.
+    - Charging station ratings.
+
+- **Dynamic Demand Calculation**: Calculate demand scores using population, station count, and usage rates.
+- **Customizable Map Layers**: Toggle between data layers dynamically for tailored insights.
+
+### Use Cases
+- **City Planners**: Identify areas with low charging station availability to guide resource allocation.
+- **Business Analysts**: Evaluate the best locations to set up new charging stations.
+- **EV Users**: Check charging station availability and ratings in your area.
+
+### Getting Started
+1. Install dependencies using `pip install -r requirements.txt`.
+2. Run the app with `streamlit run src/app/create_heatmap.py`.
+3. Interact with the map, search stations by postal code, and explore data layers.
 Notes:
 
 .idea/: Contains IDE-specific settings and configurations.
