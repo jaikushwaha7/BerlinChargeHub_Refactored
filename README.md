@@ -1,46 +1,52 @@
 ```
-BerlinChargeHub/
-├── .idea/
-│   ├── workspace.xml
-│   ├── modules.xml
-│   └── ...
-├── __pycache__/
-│   └── ...
-├── datasets/
-│   ├── charging_stations.csv
-│   ├── demand_data.csv
-│   └── ...
-├── presentation/
-│   └── EventFlow_SequenceFlow/
-│       ├── event_flow_diagram.png
-│       ├── sequence_flow_chart.pdf
-│       └── ...
+project_root/
+│
 ├── src/
-│   ├── __init__.py
-│   ├── domain/
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── events.py
-│   │   └── exceptions.py
-│   ├── application/
-│   │   ├── __init__.py
-│   │   └── services.py
+│   ├── app/
+│   │   ├── create_heatmap.py          # Main application script for Streamlit (Entry point for the app)
+│   │
 │   ├── infrastructure/
-│   │   ├── __init__.py
-│   │   └── repositories.py
-│   └── utils/
-│       ├── __init__.py
-│       └── data_loader.py
+│   │   ├── core/
+│   │   │   ├── HelperTools.py          # Contains helper functions (e.g., reusable tools like performance timing)
+│   │   │   ├── methods.py              # Contains logical and reusable data processing methods like merging DataFrames
+│   │
+│   ├── search_management/
+│   │   ├── application/
+│   │   │   ├── charging_station_search.py  # Implements search functionality (e.g., SearchService class)
+│   │   ├── domain/                      # Folder for domain-level abstractions (if needed for future growth)
+│   │
+│   ├── rating_management/
+│   │   ├── application/
+│   │   │   ├── charging_station_rate.py   # Manages station rating functionality (e.g., ChargeStationRating class)
+│   │   ├── domain/                      # Folder for domain logic related to rating (optional)
+│   │
+│   ├── demand_management/
+│   │   ├── application/
+│   │   │   ├── demand_calculator.py      # Contains DemandCalculator for calculating demand and related formulas
+│   │
+│   ├── visualization_helper/
+│   │   ├── mapping.py                   # Functions responsible for map-specific tasks (e.g., mapping_residents, mapping_stations)
+│   │
+│   ├── utils/
+│   │   ├── logger.py                    # Logger utilities (e.g., @logger_decorator)
+│   │   ├── exceptions.py                # Custom exception classes (e.g., SearchException)
+│   │   ├── database_utils.py            # Utility functions for database-related tasks (e.g., verify_user function)
+│
 ├── tests/
-│   ├── __init__.py
-│   ├── test_station_search.py
-│   └── test_demand_indicator.py
-├── README.md
-├── config.py
-├── .gitignore
-├── main.py
-└── requirements.txt
-
+│   ├── test_create_heatmap.py           # Unit tests for the main heatmap app
+│   ├── test_search_management.py        # Tests for SearchService-related methods
+│   ├── test_rating_management.py        # Tests for charging station rating functionality
+│   ├── test_demand_management.py        # Tests for demand calculation functionality
+│   ├── test_visualization_helper.py     # Tests for map-rendering functions
+│   ├── test_utils.py                    # Tests for utility functions (e.g., logger, database utilities, exceptions)
+│
+├── data/
+│   ├── population_data.csv              # Example CSV file for population data
+│   ├── charging_stations_data.csv       # Example CSV file for charging stations' data
+│
+├── requirements.txt                     # List of Python dependencies (e.g., streamlit, pandas, folium, etc.)
+├── README.md                            # Project documentation
+├── .gitignore                           # Git ignored files (e.g., *.pyc, __pycache__, local data files)
 ```
 
 Notes:
