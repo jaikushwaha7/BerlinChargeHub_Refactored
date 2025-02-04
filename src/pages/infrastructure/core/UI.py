@@ -58,16 +58,17 @@ def create_electric_charging_residents_heatmap(df_charging_stations, df_populati
             st.rerun()
 
     def handle_search(df_merged):
-        """Handle postal code-based search and display results."""
         search_plz = st.text_input("Search by Postal Code:")
         if st.button("Search", key="search"):
+            if not search_plz.isdigit() or len(search_plz) != 5:
+                st.error("Invalid postal code provided.")
+                return
             try:
                 search = SearchService()
                 result = search.search_by_postal_code(df_merged, search_plz)
                 if result and len(result) > 0 and result[0]:
                     st.info(
-                        f"Number of Charging Stations found at Postal Code {result[1].postal_code} ->   "
-                        f"{result[1].stations_found}")
+                        f"Number of Charging Stations found at Postal Code {result[1].postal_code} -> {result[1].stations_found}")
                 else:
                     st.error("No results found.")
             except SearchException as e:

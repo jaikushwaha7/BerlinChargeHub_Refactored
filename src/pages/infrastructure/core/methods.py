@@ -5,7 +5,7 @@ import geopandas as gpd
 import streamlit as st
 from pandas import merge
 from streamlit_folium import folium_static
-
+from shapely.geometry import shape
 import src.pages.infrastructure.core.HelperTools as ht
 from src.rating_management.application.charging_station_rate import ChargeStationRating
 from src.search_management.application.charging_station_search import SearchService
@@ -33,24 +33,24 @@ def sort_by_plz_add_geometry(dfr, dfg, pdict):
 
     logger.debug(f"DataFrame initial state: {dframe.shape}")
     logger.debug(f"Geo DataFrame initial state: {df_geo.shape}")
-    
+
     sorted_df               = dframe\
         .sort_values(by='PLZ')\
         .reset_index(drop=True)\
         .sort_index()
     logger.debug(f"Sorted DataFrame shape: {sorted_df.shape}")
-        
+
     sorted_df2              = sorted_df.merge(df_geo, on=pdict["geocode"], how ='left')
     logger.info(f"Merged DataFrame with geometry. Shape: {sorted_df2.shape}")
     logger.debug(f"First 5 rows of merged DataFrame:\n{sorted_df2.head(5)}")
-    
+
     sorted_df3              = sorted_df2.dropna(subset=['geometry'])
     logger.info(f"DataFrame after dropping missing geometries. Shape: {sorted_df3.shape}")
     logger.debug(f"First 5 rows after dropping missing geometries:\n{sorted_df3.head(5)}")
-    
+
     sorted_df3['geometry']  = gpd.GeoSeries.from_wkt(sorted_df3['geometry'])
     ret                     = gpd.GeoDataFrame(sorted_df3, geometry='geometry')
-    
+
     logger.info("sort_by_plz_add_geometry function completed successfully.")
     return ret
 
